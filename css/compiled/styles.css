@@ -1,0 +1,11 @@
+.box {
+  color: #40ff21;
+  border-color: #c5fdbc;
+}
+.box div {
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+.box {
+  width: 60px;
+}
