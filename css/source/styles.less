@@ -1,19 +1,61 @@
-@base: #44f927;
-@a: 10;
-@b: 20;
+@base: #555;
+@gray: #ecf0f1;
+@blue: #457e96;
+@l-blue: #6bb3e5;
+@white: #fff;
 
-.box-shadow(@style, @c) when (iscolor(@c)) {
-  -webkit-box-shadow: @style @c;
-  box-shadow:         @style @c;
+/* Common */
+html, body {
+  padding: 0;
+  margin: 0;
+  background: @gray;
+  font: normal 12px "Lucida Console", Monaco, monospace;
+  color: @base;
 }
-.box-shadow(@style, @alpha: 50%) when (isnumber(@alpha)) {
-  .box-shadow(@style, rgba(0, 0, 0, @alpha));
+h1 {
+  font: 3em Courier;
+  color: @white;
 }
-.box {
-  color: saturate(@base, 5%);
-  border-color: lighten(@base, 30%);
-  div { .box-shadow(0 0 5px, 30%) }
+h3 {
+  margin: 1.5em 0;
+  font: 1.4em Courier;
+  color: @blue;
 }
-.box {
-  width: @a+50px
+input[type='button'] {
+  padding: .6em 1.2em;
+  border: 0;
+  background: @blue;
+  font: 1.4em Courier;
+  color: @white;
+}
+
+/* Layout */
+header {
+  background: @blue;
+  text-align: center;
+}
+header h1{
+  margin: 0;
+  padding: .4em;
+}
+#content {
+  width: 600px;
+  margin: auto;
+}
+#content h3 .answers {
+  display: block;
+  float: right;
+}
+#content .panel {
+  margin: 2em 0;
+  padding: .1em 2em 1.5em;
+  background: @white;
+  overflow: hidden;
+}
+#content .panel .number {
+  margin-right: 1.2em;
+}
+#content .panel img {
+  display: block;
+  margin: 1.8em auto;
 }

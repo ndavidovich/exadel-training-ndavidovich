@@ -4,37 +4,50 @@
         <title>ПДД</title>
         <meta charset="utf-8"/>
         <link rel="stylesheet" href="css/compiled/styles.css"/>
-        <script type="text/javascript" src="js/app/main.js"></script>
-        <script type="text/javascript" src="js/app/data.js"></script>
+        <script src="js/app/main.js"></script>
+        <script src="js/app/data.js"></script>
     </head>
-    <body>
+    <header>
         <h1>ПДД</h1>
-        <div id="panel-1">
-            <h3>Доступные тесты</h3>
-            <ol>
-                <li id="li0">Дорожные знаки</li>
-                <li id="li1"></li>
-                <li>Оказание первой помощи</li>
-                <li>Административная ответственность</li>
-            </ol>
+    </header>
+    <body>
+        <div id="content">
+            <div id="list-panel" class="panel">
+                <h3>Доступные тесты</h3>
+                <ol>
+                    <li id="li0">Дорожные знаки</li>
+                    <li id="li1"></li>
+                    <li>Оказание первой помощи</li>
+                    <li>Административная ответственность</li>
+                    <script>
 
-        </div>
-        <div id="panel-2">
-            <h3>Тест: Дорожные знаки</h3>
-            <div>3/20</div>
-            <p>
-                <span>№5</span>
-                Bla-bla-bla bla-bla-bla bla-bla-bla bla-bla-bla bla-bla-bla
+                        var num = 100500;
+                        message = num;
+                        alert (message);
+                        prompt (message, 000);
+                        confirm (message);
+                    </script>
+                </ol>
+            </div>
+            <div id="question-panel" class="panel">
+                <h3>
+                    <span>Тест: Дорожные знаки</span>
+                    <span class="answers">3/20</span>
+                </h3>
+                <p>
+                    <span class="number">№5</span>
+                    Bla-bla-bla bla-bla-bla bla-bla-bla bla-bla-bla bla-bla-bla
+                </p>
                 <img src="images/content/q5.jpg" alt="Image" />
-            </p>
-            <ol>
-                <li>10 м</li>
-                <li>15 м</li>
-                <li>20 м</li>
-                <li>30 м</li>
-            </ol>
-            <input type="button" value="Ответить" />
-            <input type="button" value="Пропустить" />
+                <ol>
+                    <li>10 м</li>
+                    <li>15 м</li>
+                    <li>20 м</li>
+                    <li>30 м</li>
+                </ol>
+                <input class="btn answer" type="button" value="Ответить" />
+                <input class="btn cancel" type="button" value="Пропустить" />
+            </div>
         </div>
     </body>
 </html>
