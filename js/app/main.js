@@ -1,17 +1,18 @@
 window.onload = function () {
 
-    var ol = document.getElementById('topic_list');
+    var ol = document.getElementById('topicList');
     console.log(ol);
+
     for (var i = 0; i < data.length; i++) {
         var topic = data[i];
         var li = document.createElement('li');
         var a = document.createElement('a');
         a.innerHTML = topic.title;
         a.onclick = function onclickElement() {
-            var panel1 = document.getElementById('panel-1');
+            var panel1 = document.getElementById('panelQuestion');
             panel1.style.display = 'none';
 
-            var panel2 = document.getElementById('panel-2');
+            var panel2 = document.getElementById('panelQuestion');
             panel2.style.display = '';
 
         };
@@ -20,3 +21,4 @@ window.onload = function () {
     }
     console.log('the end');
 };
+
