@@ -1,29 +1,42 @@
 window.onload = function () {
 
-    var ol = document.getElementById('topicList');
+    var panelList;
+    var panelQuestion;
+    var selectedTopicIndex;
+    var selectedQuestionIndex = 0;
+    var questionsAnswers = [];
 
+    document.getElementById('panelQuestion').classList.add('hidden');
+
+    var onSelectTopic = function (event) {
+        selectedTopicIndex = parseInt(event.target.getAttribute('index'), 10);
+        var selectedTopic = data[selectedTopicIndex];
+
+        document.getElementById('panelList').classList.add('hidden');
+        document.getElementById('panelQuestion').classList.remove('hidden');
+
+        document.getElementById('topicTitle').textContent = selectedTopic.title;
+        var selectedQuestion = selectedTopic.questions[selectedQuestionIndex];
+        document.getElementById('question').textContent = selectedQuestion.question;
+
+        document.getElementById('questionNumber').textContent =selectedQuestionIndex + 1;
+        document.getElementById('questionImg').setAttribute('src', selectedQuestion.questionImg);
+    };
+
+    var ol = document.getElementById('topicList');
     for (var i = 0; i < data.length; i++) {
         var topic = data[i];
         var li = document.createElement('li');
         var a = document.createElement('a');
-        a.innerHTML = topic.title;
+        a.href = '#';
+        a.textContent = topic.title;
+        a.setAttribute('index', i);
+
+        a.onclick = onSelectTopic;
+
         li.appendChild(a);
         ol.appendChild(li);
-
-        a.onclick = function onclickElement() {
-            var panel1 = document.getElementById('panelList');
-            panel1.className += " hidden";
-            var panel2 = document.getElementById('panelQuestion');
-            panel2.className = panel2.className.replace("hidden", "");
-        };
-    };
-
-    var user = {};
-    user.name = 'Vasya';
-    user.surname = 'Petrov';
-    user.name = 'Sergey';
-    delete user.name;
-    alert(user.name + ' ' + user.surname);
+    }
 
 };
 
