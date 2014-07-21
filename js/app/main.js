@@ -20,46 +20,53 @@ window.onload = function () {
 
         function showQuestion (selectedTopic, selectedQuestionIndex) {
 
-        /**** Show question text and question number ****/
-        var selectedQuestion = selectedTopic.questions[selectedQuestionIndex];
-        document.getElementById('question').textContent = selectedQuestion.question;
-        document.getElementById('questionNumber').textContent = selectedQuestionIndex + 1;
+            /**** Show question text and question number ****/
+            var selectedQuestion = selectedTopic.questions[selectedQuestionIndex];
+            document.getElementById('question').textContent = selectedQuestion.question;
+            document.getElementById('questionNumber').textContent = selectedQuestionIndex + 1;
 
-        /**** Show image ****/
-        if (selectedQuestion.questionImg) {
-            var img = document.createElement('img');
-            img.src = selectedQuestion.questionImg;
-            document.getElementById('panelQuestion').insertBefore(img,questionAnswers);
-        }
+            var panelQuestion = document.getElementById('panelQuestion');
+            var questionAnswers = document.getElementById('questionAnswers');
 
-        /**** Show answers ****/
-        var answers = selectedQuestion.answers;
-        for (var i = 0; i < answers.length; i++) {
-            sepAnswer = (answers[i]);
-            var li = document.createElement('li');
-            li.textContent = sepAnswer;
-            questionAnswers.appendChild(li);
-        }
-
-        /**** Move to the next question ****/
-        function nextQuestion() {
-            selectedQuestionIndex = selectedQuestionIndex + 1;
-            if (img) {
-                panelQuestion.removeChild(img);
+            /**** Show image ****/
+            if (selectedQuestion.questionImg) {
+                var img = document.createElement('img');
+                img.src = selectedQuestion.questionImg;
+                document.getElementById('panelQuestion').insertBefore(img,questionAnswers);
             }
-            questionAnswers.innerHTML = null;
-            showQuestion(selectedTopic, selectedQuestionIndex);
+
+            /**** Show answers ****/
+            var answers = selectedQuestion.answers;
+            for (var i = 0; i < answers.length; i++) {
+                var sepAnswer = (answers[i]);
+                var li = document.createElement('li');
+                li.textContent = sepAnswer;
+                questionAnswers.appendChild(li);
+            }
+
+            /**** Move to the next question ****/
+            function nextQuestion() {
+                if (selectedQuestionIndex < selectedTopic.questions.length - 1) {
+                    selectedQuestionIndex = selectedQuestionIndex + 1;
+                } else {
+                    selectedQuestionIndex = 0;
+                }
+                if (img) {
+                    panelQuestion.removeChild(img);
+                }
+                questionAnswers.innerHTML = null;
+                showQuestion(selectedTopic, selectedQuestionIndex);
+            }
+
+            document.getElementById('sendBtn').onclick = nextQuestion;
+
         }
-
-        document.getElementById('sendBtn').onclick = nextQuestion;
-
-    }
-    }
+    };
     /**** Choose topic ****/
     var onSelectTopic = function (event) {
         selectedTopicIndex = parseInt(event.target.getAttribute('index'), 10);
         showTopic(selectedTopicIndex);
-    }
+    };
 
     /**** Show first widget with list of exams topics ****/
     var ol = document.getElementById('topicList');
