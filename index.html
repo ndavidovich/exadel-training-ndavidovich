@@ -14,8 +14,7 @@
         <div id="content">
             <div id="panelList" class="panel">
                 <h3>Доступные тесты</h3>
-                <ol id="topicList">
-                </ol>
+                <ol id="topicList"></ol>
             </div>
             <div id="panelQuestion" class="panel">
                 <h3>
@@ -26,11 +25,9 @@
                     <span class="number">№<span id="questionNumber"></span></span>
                     <span id="question"></span>
                 </p>
-                <img id="questionImg" alt="Image" />
-                <ol id="questionAnswer">
-                </ol>
-                <input class="btn answer" type="button" value="Ответить" />
-                <input class="btn cancel" type="button" value="Пропустить" />
+                <ol id="questionAnswers"></ol>
+                <input id="sendBtn" class="btn" type="button" value="Ответить" />
+                <input id="skipBtn" class="btn" type="button" value="Пропустить" />
             </div>
         </div>
     </body>
