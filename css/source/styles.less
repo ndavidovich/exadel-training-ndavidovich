@@ -28,38 +28,50 @@ input[type='button'] {
   font: 1.4em Courier;
   color: @white;
 }
+img {
+  display: block;
+}
+.hidden {
+  display: none !important;
+}
 
 /* Layout */
 header {
   background: @blue;
   text-align: center;
 }
-header h1{
+header h1 {
   margin: 0;
   padding: .4em;
 }
-/*** переделать чтобы не писать content ***/
 #content {
   width: 600px;
   margin: auto;
-}
-#content h3 .answers {
-  display: block;
-  float: right;
-}
-#content .panel {
-  margin: 2em 0;
-  padding: .1em 2em 1.5em;
-  background: @white;
-  overflow: hidden;
-}
-#content .panel .number {
-  margin-right: 1.2em;
-}
-#content .panel img {
-  display: block;
-  margin: 1.8em auto;
-}
-.hidden {
-  display: none;
+  .questionHolder {
+    min-height: 300px;
+  }
+  .answers {
+    display: block;
+    float: right;
+  }
+  .panel {
+    margin: 2em 0;
+    padding: .1em 2em 1.5em;
+    background: @white;
+    overflow: hidden;
+
+    .number {
+      margin-right: 1.2em;
+    }
+    img {
+      display: block;
+      margin: 1.8em auto;
+    }
+    li {
+      cursor: pointer;
+      &:hover {
+        color: @blue;
+      }
+    }
+  }
 }
