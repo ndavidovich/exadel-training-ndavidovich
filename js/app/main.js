@@ -2,27 +2,35 @@ window.onload = function () {
 
     var selectedTopicIndex;
     var selectedQuestionIndex = 0;
-//    var questionsAnswers = [];
 
     document.getElementById('panelQuestion').classList.add('hidden');
 
     /****  Show/hide node  ****/
-    function toggleElement (elem) {
-        for (var i=0; i < elem.length; i++) {
-            elem[i].classList.add('hidden');
+    function toggleElement (elem, display) {
+        if (display) {
+            elem.classList.remove('hidden');
+        } else {
+            elem.classList.add('hidden');
         }
+    }
+
+    /**** Create Li function ****/
+    function createLi (target, content, func) {
+        var li = document.createElement('li');
+        li.textContent = content;
+        li.setAttribute('index', i);
+        li.addEventListener("click",func);
+        target.appendChild(li);
     }
 
     /****  Show chosen topic  ****/
     var showTopic = function (selectedTopicIndex) {
-
-        document.getElementById('panelList').classList.add('hidden');
-        document.getElementById('panelQuestion').classList.remove('hidden');
+        toggleElement (document.getElementById('panelList'), 0);
+        toggleElement (document.getElementById('panelQuestion'), 1);
 
         var selectedTopic = data[selectedTopicIndex];
         document.getElementById('topicTitle').textContent = selectedTopic.title;
         showQuestion(selectedTopic, selectedQuestionIndex);
-
 
         function showQuestion (selectedTopic, selectedQuestionIndex) {
 
@@ -35,28 +43,29 @@ window.onload = function () {
             var questionAnswers = document.getElementById('questionAnswers');
 
             /**** Show image ****/
+            var img = document.getElementsByTagName('img');
             if (selectedQuestion.questionImg) {
-                var img = document.getElementsByTagName('img');
                 if (img.length > 0) {
-//                    panelQuestion.removeChild(img[0]);
-                    toggleElement(img);
+                    img[0].src = selectedQuestion.questionImg;
+                    toggleElement(img[0], 1);
+                } else {
+                    var img = document.createElement('img');
+                    img.src = selectedQuestion.questionImg;
+                    document.getElementById('panelQuestion').insertBefore(img,questionAnswers);
                 }
-                var img = document.createElement('img');
-                img.id = "img";
-                img.src = selectedQuestion.questionImg;
-                document.getElementById('panelQuestion').insertBefore(img,questionAnswers);
+            } else {
+                toggleElement(img[0], 0);
             }
 
             /**** Show answers ****/
             var answers = selectedQuestion.answers;
             for (var i = 0; i < answers.length; i++) {
                 var sepAnswer = (answers[i]);
-//                var li = document.createElement('li');
-//                li.textContent = sepAnswer;
-//                questionAnswers.appendChild(li);
                 createLi (questionAnswers, sepAnswer);
             }
+            li.addEventListener('click',highlightAnwer(event) )
         }
+
         /**** Move to the next question ****/
         function nextQuestion() {
             if (selectedQuestionIndex < selectedTopic.questions.length - 1) {
@@ -67,32 +76,27 @@ window.onload = function () {
             questionAnswers.innerHTML = null;
             showQuestion(selectedTopic, selectedQuestionIndex);
         }
-        document.getElementById('sendBtn').onclick = nextQuestion;
+//        document.getElementById('sendBtn').onclick = nextQuestion;
+        document.getElementById('sendBtn').addEventListener("click", nextQuestion);
+
+        /**** Highight answer ****/
+        function highlightAnwer (e) {
+            alert(e.target);
+        }
+
     };
+
     /**** Choose topic ****/
     var onSelectTopic = function (event) {
         selectedTopicIndex = parseInt(event.target.getAttribute('index'), 10);
         showTopic(selectedTopicIndex);
     };
 
-    /**** Show first widget with list of exams topics ****/
+    /**** Show topics list widget ****/
     var ol = document.getElementById('topicList');
     for (var i = 0; i < data.length; i++) {
         var topic = data[i];
         createLi (ol, topic.title, onSelectTopic);
-//        var li = document.createElement('li');
-//        li.textContent = topic.title;
-//        li.setAttribute('index', i);
-//        li.onclick = onSelectTopic;
-//        ol.appendChild(li);
-    }
-
-    function createLi (target, content, func) {
-        var li = document.createElement('li');
-        li.textContent = content;
-        li.setAttribute('index', i);
-        li.onclick = func;
-        target.appendChild(li);
     }
 
 };
