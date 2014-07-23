@@ -15,12 +15,12 @@ window.onload = function () {
     }
 
     /**** Create Li function ****/
-    function createLi (target, content, func) {
+    function createLi (content, func) {
         var li = document.createElement('li');
         li.textContent = content;
         li.setAttribute('index', i);
         li.addEventListener("click",func);
-        target.appendChild(li);
+        return li;
     }
 
     /****  Show chosen topic  ****/
@@ -61,9 +61,9 @@ window.onload = function () {
             var answers = selectedQuestion.answers;
             for (var i = 0; i < answers.length; i++) {
                 var sepAnswer = (answers[i]);
-                createLi (questionAnswers, sepAnswer);
+                var li = createLi (sepAnswer, highlightAnswer);
+                questionAnswers.appendChild(li);
             }
-            li.addEventListener('click',highlightAnwer(event) )
         }
 
         /**** Move to the next question ****/
@@ -80,8 +80,9 @@ window.onload = function () {
         document.getElementById('sendBtn').addEventListener("click", nextQuestion);
 
         /**** Highight answer ****/
-        function highlightAnwer (e) {
-            alert(e.target);
+        function highlightAnswer (event) {
+            event.target.style.color = 'red';
+//            elem.classList.add('hidden');
         }
 
     };
@@ -96,7 +97,8 @@ window.onload = function () {
     var ol = document.getElementById('topicList');
     for (var i = 0; i < data.length; i++) {
         var topic = data[i];
-        createLi (ol, topic.title, onSelectTopic);
+        var li = createLi (topic.title, onSelectTopic);
+        ol.appendChild(li);
     }
 
 };
