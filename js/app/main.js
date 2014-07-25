@@ -15,7 +15,7 @@ window.onload = function () {
     }
 
     /**** Create Li function ****/
-    function createLi (content, func) {
+    function createLi (content, func, i) {
         var li = document.createElement('li');
         li.textContent = content;
         li.setAttribute('index', i);
@@ -25,6 +25,8 @@ window.onload = function () {
 
     /****  Show chosen topic  ****/
     var showTopic = function (selectedTopicIndex) {
+        var selectedQuestion;
+
         toggleElement (document.getElementById('panelList'), 0);
         toggleElement (document.getElementById('panelQuestion'), 1);
 
@@ -35,7 +37,7 @@ window.onload = function () {
         function showQuestion (selectedTopic, selectedQuestionIndex) {
 
             /**** Show question text and question number ****/
-            var selectedQuestion = selectedTopic.questions[selectedQuestionIndex];
+            selectedQuestion = selectedTopic.questions[selectedQuestionIndex];
             document.getElementById('question').textContent = selectedQuestion.question;
             document.getElementById('questionNumber').textContent = '№' + (selectedQuestionIndex + 1);
 
@@ -61,7 +63,7 @@ window.onload = function () {
             var answers = selectedQuestion.answers;
             for (var i = 0; i < answers.length; i++) {
                 var sepAnswer = (answers[i]);
-                var li = createLi (sepAnswer, highlightAnswer);
+                var li = createLi (sepAnswer, highlightAnswer, i);
                 questionAnswers.appendChild(li);
             }
         }
@@ -76,15 +78,32 @@ window.onload = function () {
             questionAnswers.innerHTML = null;
             showQuestion(selectedTopic, selectedQuestionIndex);
         }
-//        document.getElementById('sendBtn').onclick = nextQuestion;
-        document.getElementById('sendBtn').addEventListener("click", nextQuestion);
+
+//        document.getElementById('sendBtn').addEventListener("click", nextQuestion);
+        document.getElementById('sendBtn').addEventListener("click", compareAnswer);
 
         /**** Highight answer ****/
         function highlightAnswer (event) {
-            event.target.style.color = 'red';
-//            elem.classList.add('hidden');
+            for (var i=0; i<event.target.parentElement.children.length; i++) {
+                if (event.target.parentElement.children[i].classList.contains('selected') && event.target.parentElement.children[i]!=event.target) {
+                    event.target.parentElement.children[i].classList.remove('selected');
+                }
+            }
+            if (event.target.classList.contains('selected')) {
+                event.target.classList.remove('selected');
+            } else {
+                event.target.classList.add('selected');
+            }
         }
 
+        /**** Compare answer ****/
+        function compareAnswer () {
+        var userAnswer = Number(document.getElementsByClassName('selected').item(0).getAttribute('index'))+1;
+            if (userAnswer == Number(selectedQuestion.right)) {
+                console.log(userAnswer,Number(selectedQuestion.right));
+            }
+
+        }
     };
 
     /**** Choose topic ****/
@@ -97,7 +116,7 @@ window.onload = function () {
     var ol = document.getElementById('topicList');
     for (var i = 0; i < data.length; i++) {
         var topic = data[i];
-        var li = createLi (topic.title, onSelectTopic);
+        var li = createLi (topic.title, onSelectTopic, i);
         ol.appendChild(li);
     }
 
