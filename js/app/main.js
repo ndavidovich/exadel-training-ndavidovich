@@ -2,8 +2,11 @@ window.onload = function () {
 
     var selectedTopicIndex;
     var selectedQuestionIndex = 0;
+    var answeredQnt = 0;
+    var rightAnsweredQnt = 0;
 
     document.getElementById('panelQuestion').classList.add('hidden');
+    document.getElementById('panelResult').classList.add('hidden');
 
     /****  Show/hide node  ****/
     function toggleElement (elem, display) {
@@ -36,6 +39,7 @@ window.onload = function () {
 
         function showQuestion (selectedTopic, selectedQuestionIndex) {
 
+
             /**** Show question text and question number ****/
             selectedQuestion = selectedTopic.questions[selectedQuestionIndex];
             document.getElementById('question').textContent = selectedQuestion.question;
@@ -44,6 +48,16 @@ window.onload = function () {
             var panelQuestion = document.getElementById('panelQuestion');
             var questionAnswers = document.getElementById('questionAnswers');
 
+
+            /**** Show counter ****/
+            var answersCount = document.getElementById('answersCount');
+            var all = selectedTopic.questions.length;
+            var count = 0;
+            var answered = answerCounter(count);
+
+            answersCount.textContent = 'Отвечены ' + answered +'/'+ all;
+
+
             /**** Show image ****/
             var img = document.getElementsByTagName('img');
             if (selectedQuestion.questionImg) {
@@ -51,13 +65,14 @@ window.onload = function () {
                     img[0].src = selectedQuestion.questionImg;
                     toggleElement(img[0], 1);
                 } else {
-                    var img = document.createElement('img');
+                    img = document.createElement('img');
                     img.src = selectedQuestion.questionImg;
-                    document.getElementById('panelQuestion').insertBefore(img,questionAnswers);
+                    questionAnswers.parentElement.insertBefore(img,questionAnswers);
                 }
             } else {
                 toggleElement(img[0], 0);
             }
+
 
             /**** Show answers ****/
             var answers = selectedQuestion.answers;
@@ -68,21 +83,30 @@ window.onload = function () {
             }
         }
 
-        /**** Move to the next question ****/
+
+        /**** Next Question ****/
         function nextQuestion() {
-            if (selectedQuestionIndex < selectedTopic.questions.length - 1) {
-                selectedQuestionIndex = selectedQuestionIndex + 1;
+
+            if (answeredQnt == selectedTopic.questions.length) {
+                showResults(0);
             } else {
-                selectedQuestionIndex = 0;
+                if (selectedQuestionIndex < selectedTopic.questions.length - 1) {
+                    selectedQuestionIndex = selectedQuestionIndex + 1;
+                } else {
+                    for (var i = 0; i < selectedTopic.questions.length - 1; i++) {
+                        if (!selectedTopic.questions[i].hasOwnProperty('answered')) {
+                            selectedQuestionIndex = i;
+                            break;
+                        }
+                    }
+                }
+                questionAnswers.innerHTML = null;
+                showQuestion(selectedTopic, selectedQuestionIndex);
             }
-            questionAnswers.innerHTML = null;
-            showQuestion(selectedTopic, selectedQuestionIndex);
         }
 
-//        document.getElementById('sendBtn').addEventListener("click", nextQuestion);
-        document.getElementById('sendBtn').addEventListener("click", compareAnswer);
 
-        /**** Highight answer ****/
+        /**** Highlight answer ****/
         function highlightAnswer (event) {
             for (var i=0; i<event.target.parentElement.children.length; i++) {
                 if (event.target.parentElement.children[i].classList.contains('selected') && event.target.parentElement.children[i]!=event.target) {
@@ -96,14 +120,62 @@ window.onload = function () {
             }
         }
 
+
         /**** Compare answer ****/
         function compareAnswer () {
-        var userAnswer = Number(document.getElementsByClassName('selected').item(0).getAttribute('index'))+1;
-            if (userAnswer == Number(selectedQuestion.right)) {
-                console.log(userAnswer,Number(selectedQuestion.right));
-            }
+            var isAnswer = document.getElementsByClassName('selected');
+            if (isAnswer.length == 0) {
+                alert('Select answer or skip this question');
+                return false;
+            } else {
 
+                answeredQnt++;
+
+                var userAnswer = Number(document.getElementsByClassName('selected').item(0).getAttribute('index'))+1;
+                if (userAnswer == Number(selectedQuestion.right)) {
+                    selectedQuestion.answered = true;
+                    rightAnsweredQnt++;
+                }
+                return true;
+            }
         }
+
+
+        /**** Answer Counter ****/
+        function answerCounter (count) {
+            for (var i=0;i<selectedTopic.questions.length;i++) {
+                if (selectedTopic.questions[i].hasOwnProperty('answered')) {
+                    count ++;
+                }
+            }
+            return count;
+        }
+
+
+        /**** Show results ****/
+        function showResults (count) {
+            for (var i=0;i<selectedTopic.questions.length;i++) {
+                if (selectedTopic.questions[i].answered) {
+                    count ++;
+                }
+            }
+            toggleElement (document.getElementById('panelQuestion'), 0);
+            toggleElement (document.getElementById('panelResult'), 1);
+
+            var results = document.getElementById('results');
+            results.textContent = count + ' правильных из ' + selectedTopic.questions.length;
+        }
+
+
+        document.getElementById('sendBtn').addEventListener("click", function() {
+            if (compareAnswer()) {
+                nextQuestion ();
+            }
+        });
+        document.getElementById('skipBtn').addEventListener("click", function() {
+            nextQuestion ();
+        });
+
     };
 
     /**** Choose topic ****/

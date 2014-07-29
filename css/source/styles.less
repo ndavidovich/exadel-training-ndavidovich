@@ -53,7 +53,7 @@ header h1 {
   .questionHolder {
     min-height: 300px;
   }
-  .answers {
+  .answersCount {
     display: block;
     float: right;
   }
@@ -63,8 +63,12 @@ header h1 {
     background: @white;
     overflow: hidden;
 
+    .holder {
+      min-height: 460px;
+    }
     .number {
       margin-right: 1.2em;
+      color: @blue;
     }
     img {
       display: block;
