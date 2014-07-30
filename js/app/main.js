@@ -5,6 +5,11 @@ window.onload = function () {
     var answeredQnt = 0;
     var rightAnsweredQnt = 0;
 
+    function getData () {
+        var xhr = XMLHttpRequest();
+        xhr.open("POST","quizz-data.json");
+    }
+
     document.getElementById('panelQuestion').classList.add('hidden');
     document.getElementById('panelResult').classList.add('hidden');
 

@@ -29,6 +29,9 @@ img {
 .hidden {
   display: none !important;
 }
+.selected {
+  color: #6bb3e5;
+}
 /* Layout */
 header {
   background: #457e96;
@@ -45,7 +48,7 @@ header h1 {
 #content .questionHolder {
   min-height: 300px;
 }
-#content .answers {
+#content .answersCount {
   display: block;
   float: right;
 }
@@ -55,8 +58,12 @@ header h1 {
   background: #ffffff;
   overflow: hidden;
 }
+#content .panel .holder {
+  min-height: 460px;
+}
 #content .panel .number {
   margin-right: 1.2em;
+  color: #457e96;
 }
 #content .panel img {
   display: block;
@@ -66,5 +73,5 @@ header h1 {
   cursor: pointer;
 }
 #content .panel li:hover {
-  color: #457e96;
+  color: #6bb3e5;
 }
