@@ -1,14 +1,38 @@
 window.onload = function () {
 
+    var data;
+
+    function getData (data, callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "http://localhost/exadel-training-ndavidovich/js/quizz-data.json");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200){
+                callback(JSON.parse(xhr.responseText));
+            }
+        }
+        xhr.send(null);
+    }
+
+    getData (0, QuizzCallback);
+
+    function QuizzCallback (quizzData) {
+        data = quizzData;
+
+
+        /**** Show topics list widget ****/
+        var ol = document.getElementById('topicList');
+        for (var i = 0; i < data.length; i++) {
+            var topic = data[i];
+            var li = createLi (topic.title, onSelectTopic, i);
+            ol.appendChild(li);
+        }
+    }
+
+
     var selectedTopicIndex;
     var selectedQuestionIndex = 0;
     var answeredQnt = 0;
     var rightAnsweredQnt = 0;
-
-    function getData () {
-        var xhr = XMLHttpRequest();
-        xhr.open("POST","quizz-data.json");
-    }
 
     document.getElementById('panelQuestion').classList.add('hidden');
     document.getElementById('panelResult').classList.add('hidden');
@@ -189,13 +213,7 @@ window.onload = function () {
         showTopic(selectedTopicIndex);
     };
 
-    /**** Show topics list widget ****/
-    var ol = document.getElementById('topicList');
-    for (var i = 0; i < data.length; i++) {
-        var topic = data[i];
-        var li = createLi (topic.title, onSelectTopic, i);
-        ol.appendChild(li);
-    }
+
 
 };
 
