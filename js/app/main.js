@@ -34,8 +34,6 @@ window.onload = function () {
     var answeredQnt = 0;
     var rightAnsweredQnt = 0;
 
-    document.getElementById('panelQuestion').classList.add('hidden');
-    document.getElementById('panelResult').classList.add('hidden');
 
     /****  Show/hide node  ****/
     function toggleElement (elem, display) {
